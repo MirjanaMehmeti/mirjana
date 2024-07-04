@@ -73,7 +73,7 @@
 </head>
 <body>
     <h1>Cat Facts</h1>
-    <input type="button" id="fetch-button" value="Get Cat Facts">
+    <input type="button" id="fetch-button" value="Get Cat Facts" onclick="getCatFacts()">
     <table id="cat-facts-table">
         <tr class="header">
             <th>factId</th>
@@ -84,8 +84,6 @@
     <img id="cat-image-1" src="catss.jpg" alt="Cat Image" width="650">
     <img id="cat-image-2" src="placeholder.jpg" width="650">
     <script>
-        document.getElementById('fetch-button').addEventListener('click', getCatFacts);
-
         async function getCatFacts() {
             const url = 'https://brianobruno.github.io/cats.json';
             const options = {
