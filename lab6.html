@@ -6,44 +6,29 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>Cat Facts</title>
     <style>
-        input[type="button"] {
-            margin: 30px 0;
-            padding: 20px 30px;
-        }
-        table {
-            border-collapse: collapse;
-        }
+       
         th, td {
             border: 2px solid #0f0f0f;
         }
-
     </style> 
     
-    <nav class="navbar navbar-expand-lg navbar-dark bg-pink">
-        <div class="container"> 
-            <a class="navbar-brand" href="index.html">Home</a>
-        </div>
-    </nav>
-
     <script>
         async function GetCatFacts() {
             const url = 'https://brianobruno.github.io/cats.json';
             const options = {
                 method: 'GET'
             };
-
             const response = await fetch(url, options);
 
             if (response.ok) {
                 const result = await response.text();
                 const myObj = JSON.parse(result);
                 displayCatFacts(myObj.facts);
-                displayCatImage(myObj.catPhoto);
+                showCatImage(myObj.catPhoto);
             } else {
-                console.error(response.status, response.statusText);
+                console.error(response.status);
             }
         }
-
         function displayCatFacts(facts) {
             const sortedFacts = facts.sort((a, b) => a.factId - b.factId);
             const table = document.getElementById('cat-facts-table');
@@ -53,7 +38,7 @@
                     <th>fact</th>
                 </tr>
             `;
-                for (let i = 0; i < sortedFacts.length; i++) {
+            for (let i = 0; i < sortedFacts.length; i++) {
                 var row = table.insertRow();
                 var cellId = row.insertCell(0);
                 var cellText = row.insertCell(1);
@@ -61,18 +46,22 @@
                 cellText.textContent = sortedFacts[i].text;
             }
         }
-
-        function displayCatImage(imageUrl) {
-            document.getElementById('cat-image-2').src = imageUrl;
+        function showCatImage(imageUrl) {
+            const catimg = document.getElementById('cute-cat-image');
+            catimg.src = imageUrl;
+            catimg.style.display = 'block';
         }
     </script>
-
 </head>
-
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-pink">
+        <div class="container"> 
+            <a class="navbar-brand" href="index.html">Home</a>
+        </div>
+    </nav>
     <h1>Cat Facts</h1>
-    <button id="api-fetch-button" onclick="GetCatFacts()">Get Cat Facts</button>
-    <div id="cat-facts"></div>
+    <button id="api-fetch-button" onclick="GetCatFacts()">Click here for some cat facts</button>
+    <div id="interesting-cat-facts"></div>
     <table id="cat-facts-table">
         <tr>
             <th>factId</th>
@@ -80,7 +69,7 @@
         </tr>
     </table>
 
-    <img id="cat-image-2" src="placeholder.jpg" width="650">
+    <img id="cute-cat-image" width="650">
    
 </body>
 </html>
