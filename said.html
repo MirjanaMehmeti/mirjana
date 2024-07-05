@@ -3,50 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Store Order Page</title>
+    <title>Cat Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 75px;
+            background: linear-gradient(to right, #e194b9, #e38bc4);
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 340px;
+            background: #f0dfef;
+        }
+        h1 {
+            color: #a4037f;
+            margin-bottom: 50px;
+        }
+        .btn-primary {
+            background-color: #ef93c5;
+            border: none;
+        }  
+    </style>   
+    
+    <script>
+        function FormSubmit() {
+            var info = document.getElementById("Form");
+            var submit = {};
+            var displaytext = "Successful Submission: <br>";
+            var passwordValid = false;
+
+            for (var i = 0; i < info.length; i++) {
+                let value = info[i].value;
+                let name = info[i].name;
+
+                if (name && value === "") {
+                    window.alert("All fields must be filled out.");
+                    return;
+                }
+
+                if (name === "password") {
+                    if (!value.includes('!') && !value.includes('?')) {
+                        window.alert("Password needs ! or ?");
+                        return;
+                    }
+                }
+
+                submit[name] = value;
+                displaytext += name + ": " + value + "<br>";
+            }
+            document.getElementById("demo").innerHTML = displaytext;
+        }
+    </script>
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-    </nav>
-    <header>
-        <h1>Petsmart Store</h1>
-    </header>
-    <h1 id="greeting"></h1>
+    <form id="Form" class="container">
+        <h1>Cat Registration</h1>
+        First name:<input type="text" id="fname" name="firstname"><br>
+        Last name:<input type="text" id="lname" name="lastname"><br>
+        Email:<input type="email" id="mail" name="email"><br>
+        Date of birth:<input type="date" id="date" name="dateofbirth"><br>
+        Password:<input type="password" id="password" name="password"><br>
 
-    <script>
-        window.alert("Welcome to Petsmart Store");
-
-        var customerName = window.prompt('Enter your name:');
-        var itemRequested = window.prompt('What food would you like to order?');
-        var numberOfItems = window.prompt('How many items would you like to get?');
-
-        numberOfItems = parseInt(numberOfItems);
-
-        let now = new Date();
-        let hour = now.getHours();
-        let greeting;
-
-        if (hour < 12) {
-            greeting = "Good Morning";
-        } else if (hour < 18) {
-            greeting = "Good Afternoon";
-        } else {
-            greeting = "Good Evening";
-        }
-
-        const date = new Date();
-        date.setDate(date.getDate() + 7);
-        const expectedDate = date.toDateString();
-
-        document.writeln("<h1>" + greeting + ", " + customerName + ", welcome to Petsmart store!</h1>");
-
-        if (!isNaN(numberOfItems) && numberOfItems >= 1 && numberOfItems <= 99) {
-            document.writeln("<p>The item you ordered: " + itemRequested +  "</p>");
-            document.writeln("<p>Quantity: " + numberOfItems + "</p>");
-            document.writeln("<p>Your expected delivery date is: " + expectedDate + "</p>");
-        }
-
-    </script>
+        <button type="button" class="btn btn-primary" onclick="FormSubmit()">Submit</button>
+    </form>
+    <p id="demo"></p>
 </body>
 </html>
