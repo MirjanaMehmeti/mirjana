@@ -52,9 +52,15 @@
         }
         .fancy-text, .fancy-subtext {
             font-family: 'Cursive', sans-serif;
-            color: #7d6553;
+            color: #eae8e6;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-            font-size: 24px;
+            font-size: 22px;
+        }
+        .highlight {
+            background-color: #616161;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
     </style>
 
@@ -261,23 +267,21 @@
             </select>
         </div>
         <div id="galleryContainer" class="row justify-content-center mt-4"></div>
-        <div class="mt-5">
-            <h2 class="fancy-text">Are you fan of orange cats?</h2>
-            <p class="fancy-subtext">We have the purr-fect solution! Click "Get Orange Cat" to lift your spirits with more adorable and hilarious cat. Let these charming kitties turn your frown upside down!</p>
-            <p><b>Click here to get more orange cat images or GIFs:</b></p>
+        <div class="mt-5 highlight">
+            <h2 class="fancy-text"><b>Are you a fan of orange cats?</b></h2>
+            <p class="fancy-subtext">We have the purr-fect solution! Click "Get Orange Cat" to lift your spirits with more adorable and hilarious cats. Let these charming kitties turn your frown upside down!</p>
 
             <div id="catMediaContainer" class="mt-3">
-                <button onclick="fetchCatImage()" class="btn btn-orange">Get Orange Cat</button>
+                <button onclick="fetchCatImage()" class="btn btn-orange mb-3">Get Orange Cat</button>
                 <img id="catImage" src="" alt="Random Cat" class="img-fluid rounded shadow-sm">
-                
             </div>
-            <div class="mt-3">
-                <h2 class="fancy-text">Oh, you had a bad day?</h2>
-                <p class="fancy-subtext"> Don't worry, we’ve got just the thing to brighten it up!Click "Get Cat GIF" to make your day sweeter with an adorable and funny cat gif. Let these furry little friends bring a smile to your face and turn your day around!</p>
-                <div id="catMediaContainer" class="mt-3">
-                     <button onclick="fetchCatGif()" class="btn btn-orange">Get Cat GIF</button>
-                    <img id="catGif" src="" alt="Random Cat GIF" class="img-fluid rounded shadow-sm">
-                </div>
+        </div>
+        <div class="mt-3 highlight">
+            <h2 class="fancy-text"><b>Oh, you had a bad day?</b></h2>
+            <p class="fancy-subtext">Don't worry, we’ve got just the thing to brighten it up! Click "Get Cat GIF" to make your day sweeter with an adorable and funny cat gif. Let these furry little friends bring a smile to your face and turn your day around!</p>
+            <div id="catMediaContainer" class="mt-3">
+                <button onclick="fetchCatGif()" class="btn btn-orange mb-3">Get Cat GIF</button>
+                <img id="catGif" src="" alt="Random Cat GIF" class="img-fluid rounded shadow-sm">
             </div>
         </div>
     </div>
