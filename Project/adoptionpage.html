@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat as a Service</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            padding-top: 56px;
+            background: url('https://img.freepik.com/free-photo/close-up-portrait-beautiful-cat_23-2149214418.jpg?t=st=1721315851~exp=1721319451~hmac=b00999a03393e80ec74b1e0f07374b360f2ca55525fa67a791d45319339b17f7&w=996') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .navbar {
+            box-shadow: 0 4px 8px rgba(79, 78, 78, 0.1);
+        }
+        .section {
+            padding: 60px 0;
+        }
+        .gallery-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        .caption {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #1f1d1d;
+            font-weight: bold;
+        }
+        #catMediaContainer img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: none;
+        }
+        #gallery {
+            display: none;
+        }
+        .background, .beige-background{
+            background-color: rgb(222, 218, 212);
+        }
+        #adoptSection, #facts {
+            display: none;
+        }
+        .btn-orange, .btn-orange:hover {
+            background-color: rgb(225, 148, 4);
+        }
+        .fancy-text, .fancy-subtext {
+            font-family: 'Cursive', sans-serif;
+            color: #7d6553;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            font-size: 24px;
+        }
+    </style>
+
+     <script>
+        function FormSubmit() {
+            const info = document.getElementById("Form");
+            const submit = {};
+            let displaytext = "Submission Status: <br>";
+
+            for (let i = 0; i < info.length; i++) {
+                const value = info[i].value;
+                const name = info[i].name;
+                if (name && value === "") {
+                    window.alert("All fields must be filled out.");
+                    return;
+                }
+                submit[name] = value;
+            }
+
+            const dob = new Date(submit.dateofbirth);
+            const age = new Date().getFullYear() - dob.getFullYear();
+            const netWorth = parseFloat(submit.networth);
+
+            if (age < 21 || age > 60) {
+                displaytext += "You must be between 21 and 60 years old to adopt a cat.<br>";
+            } else if (netWorth < 40000) {
+                displaytext += "You must have a net worth of $60,000 or more to adopt a cat.<br>";
+            } else {
+                displaytext += "Congratulations! You are eligible to adopt a cat.<br>";
+            }
+
+            document.getElementById("demo").innerHTML = displaytext;
+        }
+
+        function showAdoptForm() {
+            document.getElementById('adoptSection').style.display = 'block';
+        }
+
+        function hideAdoptForm() {
+            document.getElementById('adoptSection').style.display = 'none';
+        }
+
+        function showGallery() {
+            document.getElementById('gallery').style.display = 'block';
+            fetchGalleryImages();
+        }
+
+        async function fetchCatImage() {
+            const catImage = document.getElementById('catImage');
+            const catGif = document.getElementById('catGif');
+            catGif.style.display = 'none';
+            catImage.style.display = 'block';
+
+            const url = 'https://cataas.com/cat/orange,cute';
+            const options = {
+                method: 'GET',
+            };
+
+            const response = await fetch(url, options);
+            const imageUrl = response.url;
+            catImage.src = imageUrl;
+        }
+
+        async function fetchCatGif() {
+            const catGif = document.getElementById('catGif');
+            const catImage = document.getElementById('catImage');
+            catImage.style.display = 'none';
+            catGif.style.display = 'block';
+
+            const url = 'https://cataas.com/cat/gif';
+            const options = {
+                method: 'GET',
+            };
+
+            const response = await fetch(url, options);
+            const gifUrl = response.url;
+            catGif.src = gifUrl;
+        }
+
+        async function fetchGalleryImages() {
+    const galleryContainer = document.getElementById('galleryContainer');
+    const filter = document.getElementById('filterSelect').value;
+    galleryContainer.innerHTML = '';
+
+    const descriptions = [
+        { text: "This is a cute cat looking for a home.", category: "cute" },
+        { text: "This funny cat will make you laugh.", category: "funny" },
+        { text: "This cat loves sleeping all day.", category: "sleepy" },
+        { text: "This angry cat needs a loving family.", category: "angry" },
+        { text: "This happy cat is full of joy.", category: "happy" },
+        { text: "This playful cat loves to have fun.", category: "playful" },
+        { text: "This shy cat needs a quiet home.", category: "shy" },
+        { text: "This adventurous cat loves exploring.", category: "adventurous" },
+        { text: "This gentle cat is very affectionate.", category: "gentle" },
+        { text: "This energetic cat is always on the go.", category: "energetic" },
+        { text: "This curious cat loves to learn new things.", category: "curious" },
+        { text: "This friendly cat loves everyone.", category: "friendly" }
+    ];
+
+    let filteredDescriptions;
+    if (filter === 'all') {
+        filteredDescriptions = descriptions;
+    } else {
+        filteredDescriptions = descriptions.filter(function(d) {
+            return d.category === filter;
+        });
+    }
+
+    for (let i = 0; i < filteredDescriptions.length; i++) {
+        const description = filteredDescriptions[i];
+        const url = 'https://cataas.com/cat?' + i;  
+        const options = {
+            method: 'GET',
+        };
+
+        const response = await fetch(url, options);
+        const imageUrl = response.url;
+
+        galleryContainer.innerHTML += 
+            '<div class="col-md-4 mb-4 d-flex justify-content-center">' +
+                '<div>' +
+                    '<img src="' + imageUrl + '" class="gallery-img img-fluid rounded shadow-sm" alt="Cat Image">' +
+                    '<div class="caption"><b>' + description.text + '</b></div>' +
+                '</div>' +
+            '</div>';
+           }
+        }
+        function showCatFacts() {
+            document.getElementById('facts').style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="image9.png" alt="Logo" width="33px" class="logo">
+                <span>Home</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-orange" onclick="showAdoptForm()">Adopt a Cat</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="adoptSection" class="container section text-center beige-background">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Adopt a Cat</h5>
+                <form id="Form">
+                    <div class="form-group">
+                        First name:<input type="text" id="fname" name="firstname" class="form-control mb-2">
+                        Last name:<input type="text" id="lname" name="lastname" class="form-control mb-2">
+                        Email:<input type="email" id="mail" name="email" class="form-control mb-2">
+                        Date of birth:<input type="date" id="date" name="dateofbirth" class="form-control mb-2">
+                        Net Worth:<input type="number" id="networth" name="networth" step="0.01" class="form-control mb-2">
+                    </div>
+                </form>
+                <p id="demo"></p>
+                <button type="button" class="btn btn-orange" onclick="hideAdoptForm()">Close</button>
+                <button type="button" class="btn btn-orange" onclick="FormSubmit()">Submit</button>
+            </div>
+        </div>
+    </div>
+    <div class="container section text-center">
+       
+        <div class="alert alert-info background" role="alert">
+            <h2>Why Should You Adopt a Cat?</h2>
+             <p class="lead">
+                <b>Adopting a cat not only gives a homeless animal a second chance, but it also provides you with a loving companion. Many cats in shelters are looking for forever homes. By adopting, you help reduce the number of homeless animals and open up space for other cats in need. There are many cats available for adoption. Click on "Cats Available for Adoption" to view them. But first,<b> see if you are eligible for adoption by clicking the button on top adopt a cat.</b> If you liked any of our cats <a href="contact.html">Contact Us</a> to schedule an appointment to see you buddy in person.</b>
+            </p>
+            <button onclick="showGallery()" class="btn btn-orange btn-lg">Cats Available for Adoption</button>
+        </div>
+    </div>
+    
+
+    <div id="gallery" class="container section text-center beige-background">
+        <div class="mb-3">
+            <select id="filterSelect" class="form-control w-50 mx-auto" onchange="fetchGalleryImages()">
+                <option value="all">All</option>
+                <option value="cute">Cute</option>
+                <option value="funny">Funny</option>
+                <option value="sleepy">Sleepy</option>
+                <option value="angry">Angry</option>
+                <option value="happy">Happy</option>
+                <option value="playful">Playful</option>
+                <option value="shy">Shy</option>
+                <option value="adventurous">Adventurous</option>
+                <option value="gentle">Gentle</option>
+                <option value="energetic">Energetic</option>
+                <option value="curious">Curious</option>
+                <option value="friendly">Friendly</option>
+            </select>
+        </div>
+        <div id="galleryContainer" class="row justify-content-center mt-4"></div>
+        <div class="mt-5">
+            <h2 class="fancy-text">Are you fan of orange cats?</h2>
+            <p class="fancy-subtext">We have the purr-fect solution! Click "Get Orange Cat" to lift your spirits with more adorable and hilarious cat. Let these charming kitties turn your frown upside down!</p>
+            <p><b>Click here to get more orange cat images or GIFs:</b></p>
+
+            <div id="catMediaContainer" class="mt-3">
+                <button onclick="fetchCatImage()" class="btn btn-orange">Get Orange Cat</button>
+                <img id="catImage" src="" alt="Random Cat" class="img-fluid rounded shadow-sm">
+                
+            </div>
+            <div class="mt-3">
+                <h2 class="fancy-text">Oh, you had a bad day?</h2>
+                <p class="fancy-subtext"> Don't worry, we’ve got just the thing to brighten it up!Click "Get Cat GIF" to make your day sweeter with an adorable and funny cat gif. Let these furry little friends bring a smile to your face and turn your day around!</p>
+                <div id="catMediaContainer" class="mt-3">
+                     <button onclick="fetchCatGif()" class="btn btn-orange">Get Cat GIF</button>
+                    <img id="catGif" src="" alt="Random Cat GIF" class="img-fluid rounded shadow-sm">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container section text-center">
+        <button onclick="showCatFacts()" class="btn btn-orange btn-lg">Interesting Cat Facts</button>
+    </div>
+    <div id="facts" class="container section text-center">
+        <div class="card-columns ">
+            <div class="card cat-fact-card p-3 bg-light ">
+                <div class="card-body beige-background">
+                    <h5 class="card-title ">Fact 1</h5>
+                    <p class="card-text">Cats have five toes on their front paws, but only four toes on their back paws.There are cats who have more than 18 toes.”</p>
+                </div>
+            </div>
+            <div class="card cat-fact-card p-3 bg-light">
+                <div class="card-body beige-background">
+                    <h5 class="card-title">Fact 2</h5>
+                    <p class="card-text">A group of cats is called a clowder.Cats have an extra organ that allows them to taste scents on the air.</p>
+                </div>
+            </div>
+            <div class="card cat-fact-card p-3 bg-light ">
+                <div class="card-body beige-background">
+                    <h5 class="card-title">Fact 3</h5>
+                    <p class="card-text">Cats can rotate their ears 180 degrees.Cats have whiskers on the backs of their front legs, as well.</p>
+                </div>
+            </div>
+            <div class="card cat-fact-card p-3 bg-light ">
+                <div class="card-body beige-background">
+                    <h5 class="card-title">Fact 4</h5>
+                    <p class="card-text">The world’s largest cat measured 48.5 inches long.Cats have nearly twice the amount of neurons in their cerebral cortex as dogs.</p>
+                </div>
+            </div>
+            <div class="card cat-fact-card p-3 bg-light">
+                <div class="card-body beige-background">
+                    <h5 class="card-title">Fact 5</h5>
+                    <p class="card-text">Cats sleep for 70% of their lives. Male cats are likely to be left-pawed, while female cats are more likely right-pawed.</p>
+                </div>
+            </div>
+            <div class="card cat-fact-card p-3 bg-light">
+                <div class="card-body beige-background">
+                    <h5 class="card-title">Fact 6</h5>
+                    <p class="card-text">A cat was the Mayor of an Alaskan town for 20 years. Cats are believed to be the only mammals who don’t taste sweetness.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<footer class="text-center mt-5 py-4 bg-dark text-white">
+    <div class="container">
+        <hr class="bg-white">
+        <p>Date: June 10, 2024 | Author: Mirjana Mehmeti</p>
+        <a href="https://www.linkedin.com/in/mirjana-mehmeti-b3b52917a/?originalSubdomain=al" class="d-block text-white">Our LinkedIn</a>
+        <a href="https://github.com/MirjanaMehmeti/mirjana.github.io" class="d-block text-white">Our GitHub</a>
+    </div>
+</footer>
+</body>
+</html>
